@@ -1,0 +1,408 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #050508;
+  color: #0c0;
+  font-family: 'Courier Prime', 'Courier New', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.15) 0px,
+    rgba(0,0,0,0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.8) 100%);
+  pointer-events: none;
+  z-index: 998;
+}
+
+#title-screen, #game-over {
+  text-align: center;
+  padding: 2rem;
+  max-width: 700px;
+  animation: fadeIn 1s ease;
+}
+
+#title-ascii {
+  color: #060;
+  font-size: 10px;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-family: 'VT323', monospace;
+  font-size: 3rem;
+  color: #0c0;
+  text-shadow: 0 0 10px rgba(0, 204, 0, 0.5), 0 0 20px rgba(0, 204, 0, 0.2);
+  letter-spacing: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #080;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  letter-spacing: 2px;
+}
+
+.title-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  background: transparent;
+  border: 1px solid #0c0;
+  color: #0c0;
+  font-family: inherit;
+  font-size: 1.1rem;
+  padding: 0.6rem 2rem;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  background: rgba(0, 204, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 204, 0, 0.3);
+  text-shadow: 0 0 10px rgba(0, 204, 0, 0.5);
+}
+
+/* Keyboard focus indicators — clearly visible for keyboard navigation. */
+.btn:focus-visible {
+  outline: none;
+  background: rgba(0, 204, 0, 0.15);
+  box-shadow: 0 0 0 2px #0c0, 0 0 18px rgba(0, 204, 0, 0.5);
+  text-shadow: 0 0 10px rgba(0, 204, 0, 0.6);
+}
+
+.action-btn:focus-visible {
+  outline: none;
+  border-left-color: #0c0;
+  background: rgba(0, 204, 0, 0.12);
+  padding-left: 1.5rem;
+  text-shadow: 0 0 8px rgba(0, 204, 0, 0.45);
+}
+
+#mute-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #0c0, 0 0 12px rgba(0, 204, 0, 0.5);
+  text-shadow: 0 0 8px rgba(0, 204, 0, 0.6);
+}
+
+#game-container {
+  width: 100%;
+  max-width: 800px;
+  height: 100vh;
+  max-height: 700px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  animation: fadeIn 0.5s ease;
+}
+
+#status-bar {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #0a0;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.stat-label {
+  color: #060;
+}
+
+.stat-value {
+  color: #0c0;
+  font-weight: bold;
+  min-width: 2rem;
+}
+
+.stat-value.danger { color: #c00; text-shadow: 0 0 5px rgba(204,0,0,0.5); }
+.stat-value.warning { color: #cc0; text-shadow: 0 0 5px rgba(204,204,0,0.3); }
+.stat-value.safe { color: #0c0; }
+
+#inventory-display {
+  margin-left: auto;
+}
+
+#inventory-display .stat-label { color: #060; }
+#inventory-display .stat-value { color: #0cc; font-size: 0.8rem; min-width: auto; }
+
+#entropy-bar {
+  height: 3px;
+  background: #0a0;
+  margin-bottom: 0.5rem;
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+#entropy-fill {
+  height: 100%;
+  width: 0%;
+  background: #0c0;
+  transition: width 0.5s ease;
+}
+
+#chronicle {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  scroll-behavior: smooth;
+}
+
+#chronicle::-webkit-scrollbar { width: 4px; }
+#chronicle::-webkit-scrollbar-track { background: #050508; }
+#chronicle::-webkit-scrollbar-thumb { background: #0a0; border-radius: 2px; }
+
+.entry {
+  margin-bottom: 1rem;
+  /* No fade: the typewriter reveal is the entry's entrance animation. */
+}
+
+.entry-title {
+  color: #0c0;
+  font-family: 'VT323', monospace;
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 5px rgba(0, 204, 0, 0.3);
+}
+
+.entry-body {
+  color: #0a0;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.entry-body .highlight { color: #0c0; }
+.entry-body .danger { color: #c00; }
+.entry-body .warning { color: #cc0; }
+.entry-body .info { color: #0cc; }
+.entry-body .dim { color: #060; }
+.entry-body .entity { color: #c0c; text-shadow: 0 0 5px rgba(192,0,192,0.3); }
+
+.hazard-entry {
+  border-left: 3px solid #c00;
+  padding-left: 0.8rem;
+}
+
+.hazard-entry .entry-title { color: #c00; text-shadow: 0 0 5px rgba(204,0,0,0.3); }
+
+.history-divider {
+  color: #060;
+  text-align: center;
+  font-size: 0.7rem;
+  margin: 0.5rem 0;
+  user-select: none;
+}
+
+#actions {
+  padding: 0.8rem 0;
+  border-top: 1px solid #0a0;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-left: 2px solid #060;
+  color: #0c0;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 0.5px;
+}
+
+.action-btn:hover {
+  border-left-color: #0c0;
+  background: rgba(0, 204, 0, 0.05);
+  padding-left: 1.5rem;
+}
+
+.action-btn.dimmed {
+  color: #060;
+  cursor: not-allowed;
+}
+
+.action-btn.dimmed:hover {
+  border-left-color: #060;
+  background: transparent;
+  padding-left: 1rem;
+}
+
+.action-btn .key-hint {
+  color: #060;
+  margin-right: 0.8rem;
+}
+
+#game-over h1 {
+  margin-bottom: 1rem;
+}
+
+#epilogue {
+  color: #0a0;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  white-space: pre-wrap;
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+  color: #0c0;
+  margin-top: 2rem;
+}
+
+/* Typewriter caret — trails the text as it reveals. */
+.caret {
+  animation: blink 0.7s step-end infinite;
+  color: #0c0;
+  text-shadow: 0 0 6px rgba(0, 204, 0, 0.6);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ── Mute toggle ─────────────────────────────────────────── */
+#mute-btn {
+  position: fixed;
+  top: 0.6rem;
+  right: 0.8rem;
+  z-index: 1001;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(5, 5, 8, 0.6);
+  border: 1px solid #0a0;
+  color: #0c0;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#mute-btn:hover {
+  box-shadow: 0 0 12px rgba(0, 204, 0, 0.4);
+  text-shadow: 0 0 8px rgba(0, 204, 0, 0.6);
+}
+
+/* ── Sanity-reactive degradation ─────────────────────────── */
+/* As sanity falls the screen sours: text splits into chromatic ghosts,
+   jitters, and the vignette closes inward. */
+body.sanity-warn .entry-body,
+body.sanity-warn .entry-title {
+  text-shadow: -0.4px 0 rgba(204, 0, 0, 0.35), 0.4px 0 rgba(0, 204, 204, 0.35);
+}
+
+body.sanity-low .entry-body,
+body.sanity-low .entry-title {
+  text-shadow: -1px 0 rgba(204, 0, 0, 0.55), 1px 0 rgba(0, 204, 204, 0.55);
+  animation: jitter 0.18s steps(2) infinite;
+}
+
+/* Vignette tightens as the mind frays. */
+body.sanity-low::before {
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,0.95) 92%);
+}
+
+/* Heavier scanlines under high entropy. */
+body.entropy-high::after {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.28) 0px,
+    rgba(0,0,0,0.28) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: scan-roll 8s linear infinite;
+}
+
+body.entropy-high #entropy-fill {
+  background: #c00;
+  box-shadow: 0 0 10px rgba(204, 0, 0, 0.7);
+  animation: pulse-fill 1.1s ease-in-out infinite;
+}
+
+@keyframes jitter {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-0.5px, 0.4px); }
+  50%  { transform: translate(0.5px, -0.4px); }
+  75%  { transform: translate(-0.4px, -0.3px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes scan-roll {
+  from { background-position: 0 0; }
+  to   { background-position: 0 100px; }
+}
+
+@keyframes pulse-fill {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.sanity-low .entry-body,
+  body.sanity-low .entry-title { animation: none; }
+  body.entropy-high::after { animation: none; }
+  body.entropy-high #entropy-fill { animation: none; }
+  .blink { animation: none; }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  h1 { font-size: 2rem; letter-spacing: 3px; }
+  #game-container { max-height: 100vh; padding: 0.5rem; }
+  #status-bar { gap: 0.8rem; font-size: 0.75rem; flex-wrap: wrap; }
+  .action-btn { font-size: 0.85rem; padding: 0.5rem 0.8rem; }
+}
+
+/* Lite edition call-to-action on the end screen */
+.lite-cta { margin-top: 1.5em; opacity: .85; font-size: .9em; }
+.lite-cta a { color: inherit; text-decoration: underline; }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echoes from the Void — Lite</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<button id="mute-btn" title="Toggle sound">♪</button>
+<div id="title-screen">
+  <pre id="title-ascii"></pre>
+  <h1>ECHOES FROM THE VOID</h1>
+  <p class="subtitle">A Text-Based Cosmic Horror Roguelike · LITE EDITION</p>
+  <div class="title-controls">
+    <button class="btn" onclick="Game.main.newGame()">[ DESCEND ]</button>
+    <button class="btn" id="load-btn" style="display:none" onclick="Game.main.loadGame()">[ CONTINUE ]</button>
+  </div>
+  <p class="blink">_</p>
+</div>
+<div id="game-container" style="display:none">
+  <div id="status-bar"></div>
+  <div id="entropy-bar"><div id="entropy-fill"></div></div>
+  <div id="chronicle"></div>
+  <div id="actions"></div>
+</div>
+<div id="game-over" style="display:none">
+  <div id="epilogue"></div>
+  <div class="title-controls">
+    <button class="btn" onclick="Game.main.newGame()">[ DESCEND AGAIN ]</button>
+    <button class="btn" onclick="Game.main.showTitle()">[ TITLE ]</button>
+  </div>
+</div>
+<script src="js/state.js"></script>
+<script src="js/data.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/renderer.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
